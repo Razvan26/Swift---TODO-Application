@@ -36,7 +36,7 @@ class SignInViewController: UIViewController {
     
     let signInButton : UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
-        button.setTitle("SignIn", for: UIControl.State.normal)
+        button.setTitle("Sign In", for: UIControl.State.normal)
         button.setTitle("Loading", for: UIControl.State.highlighted)
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
         button.setTitleColor(UIColor.black, for: UIControl.State.highlighted)
@@ -49,7 +49,7 @@ class SignInViewController: UIViewController {
     
     let registerButton : UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
-        button.setTitle("Register", for: UIControl.State.normal)
+        button.setTitle("Create account", for: UIControl.State.normal)
         button.setTitle("Loading", for: UIControl.State.highlighted)
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
         button.setTitleColor(UIColor.black, for: UIControl.State.highlighted)
