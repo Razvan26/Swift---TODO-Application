@@ -14,8 +14,19 @@ class QuerryViewController: UIViewController {
     
     let database = Database.database().reference()
     
+    fileprivate func activitySetup() {
+        let activity = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        self.view.addSubview(activity)
+        activity.startAnimating()
+        activity.color = UIColor.white
+        activity.translatesAutoresizingMaskIntoConstraints = false
+        activity.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        activity.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        activitySetup()
         
         queryFirebase()
         // Do any additional setup after loading the view.
