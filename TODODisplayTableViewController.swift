@@ -6,7 +6,15 @@
 //  Copyright © 2019 Razvan26. All rights reserved.
 //
 
+
+/**
+ TODO For 2 02 2019
+ I want to make delete feature
+ */
+
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
 
 let cellID = "cellIDTodo"
 
@@ -54,16 +62,21 @@ class TODODispayTableClass: UITableViewCell {
 }
 
 
-class TODODisplayTableViewController: UITableViewController {
+class TODODisplayTableViewController: UITableViewController  {
     
     var data = ["This is your todo application, have fun!"]
     
+    var parrentData = [""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(TODODispayTableClass.self, forCellReuseIdentifier: cellID)
         tableView.rowHeight = 120
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(addTodo))
+        data.remove(at: 0)
+        parrentData.remove(at: 0)
+        
+        self.title = "Your TODO list"
     }
     
     // MARK: - Table view data source
@@ -86,7 +99,25 @@ class TODODisplayTableViewController: UITableViewController {
         return cell
     }
     
-    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let datab = Database.database().reference()
+        let uid = Auth.auth().currentUser?.uid
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, handler) in
+            print("Delete Action Tapped")
+            print(self.parrentData[indexPath.row])
+            
+            if (indexPath.row != 0) {
+                self.data.remove(at: indexPath.row)
+                datab.child(uid!).child(self.parrentData[indexPath.row]).removeValue()
+                tableView.reloadData()
+            }
+            
+        }
+        deleteAction.backgroundColor = .red
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
+    }
     
     @objc func addTodo () {
         self.navigationController?.pushViewController(AddViewController(), animated: true)
