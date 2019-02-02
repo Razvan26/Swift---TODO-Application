@@ -32,8 +32,7 @@ class AddViewController: UIViewController {
     }()
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    fileprivate func layoutSetup() {
         view.backgroundColor = UIColor.white
         self.view.addSubview(nameOfItem)
         self.view.addSubview(confirmButton)
@@ -45,6 +44,11 @@ class AddViewController: UIViewController {
         confirmButton.topAnchor.constraint(equalTo: nameOfItem.bottomAnchor, constant: 20).isActive = true
         confirmButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
         confirmButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        layoutSetup()
         
         // Do any additional setup after loading the view.
     }
@@ -70,9 +74,7 @@ class AddViewController: UIViewController {
         }
         
     }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
 }
