@@ -45,17 +45,20 @@ class QuerryViewController: UIViewController {
         database.child(userid).observe(DataEventType.value) { (snapshot) in
             let value = snapshot.value as? NSDictionary
             var title = value?["title"] as? [String] ?? [""]
+            var keys = value?["key"] as? [String] ?? [""]
             print(title)
             
             for tit in value! {
                 print(tit.value)
                 let val = tit.value as? NSDictionary
                 print(val?["title"] as? String ?? "")
+                keys.append(tit.key as? String ?? "")
                 title.append(val?["title"] as? String ?? "")
             }
             print("This is title : ", title)
             let vcc = TODODisplayTableViewController() as TODODisplayTableViewController
             vcc.data = title
+            vcc.parrentData = keys
             let vc = UINavigationController(rootViewController: vcc)
             
             self.present(vc, animated: true)
