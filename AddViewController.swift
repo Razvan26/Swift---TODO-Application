@@ -23,11 +23,13 @@ class AddViewController: UIViewController {
     let confirmButton : UIButton = {
        let button = UIButton(type: UIButton.ButtonType.custom)
         button.setTitle("Add item", for: UIControl.State.normal)
-        button.setTitleColor(UIColor.blue, for: UIControl.State.normal)
+        button.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        button.titleLabel?.font = UIFont().myFont(30)
         button.setTitleColor(UIColor.black, for: UIControl.State.highlighted)
         button.setTitle("Added!", for: UIControl.State.highlighted)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(addToDatabase), for: UIControl.Event.touchUpInside)
+        button.backgroundColor = UIColor.blue
         return button
     }()
     
@@ -44,6 +46,7 @@ class AddViewController: UIViewController {
         confirmButton.topAnchor.constraint(equalTo: nameOfItem.bottomAnchor, constant: 20).isActive = true
         confirmButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
         confirmButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
+        confirmButton.heightAnchor.constraint(equalToConstant: 60)
     }
     
     override func viewDidLoad() {
