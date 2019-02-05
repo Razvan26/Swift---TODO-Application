@@ -21,7 +21,7 @@ class AddViewController: UIViewController {
     }()
     
     let confirmButton : UIButton = {
-       let button = UIButton(type: UIButton.ButtonType.custom)
+        let button = UIButton(type: UIButton.ButtonType.custom)
         button.setTitle("Add item", for: UIControl.State.normal)
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
         button.titleLabel?.font = UIFont().myFont(30)
@@ -56,16 +56,22 @@ class AddViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
+    
     func setDatabase (_ message: String) {
         
         let database = Database.database().reference()
         
         let userid = Auth.auth().currentUser?.uid ?? ""
-        //        let time = NSDate().timeIntervalSince1970
         let id = "title"
+        let date = Date()
+        let calender = Calendar.current
+        let tData = calender.dateComponents([.day, .hour, .second], from: date)
+        let time = "time"
+        
+        print(date)
+        
         print(id)
-        database.child(userid).childByAutoId().setValue([id: message])
+        database.child(userid).childByAutoId().setValue([id: message, time: "\(tData)"])
         
     }
     @objc func addToDatabase () {
