@@ -9,9 +9,11 @@
 import UIKit
 import CoreData
 import Firebase
+import UserNotifications
+
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -19,6 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
+        
+        let center = UNUserNotificationCenter.current()
+        
+        let options: UNAuthorizationOptions = [.sound, .alert]
+        
+        center.requestAuthorization(options: options) { (res, err) in
+
+            if err != nil {
+                print(err ?? "")
+            }
+        }
+        center.delegate = self
         
         
         window = UIWindow()
