@@ -7,14 +7,14 @@
 //
 
 
-
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
+import UserNotifications
 
 let cellID = "cellIDTodo"
 
-
+// MARK: - Table view cell setup
 
 class TODODispayTableClass: UITableViewCell {
     
@@ -47,7 +47,6 @@ class TODODispayTableClass: UITableViewCell {
         titleText.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5).isActive = true
         titleText.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
         
-//        isImportantText.topAnchor.constraint(equalTo: titleText.bottomAnchor, constant: 15).isActive = true
         isImportantText.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 25).isActive = true
         isImportantText.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
         isImportantText.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1).isActive = true
@@ -64,8 +63,11 @@ class TODODisplayTableViewController: UITableViewController  {
     
     var parrentData = [""]
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.register(TODODispayTableClass.self, forCellReuseIdentifier: cellID)
         tableView.rowHeight = 120
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(addTodo))
@@ -111,10 +113,60 @@ class TODODisplayTableViewController: UITableViewController  {
             
         }
         deleteAction.backgroundColor = .red
+        
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        
+        
         return configuration
     }
-    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        
+        
+        let notificationAction = UIContextualAction(style: .normal, title: "Remember me in one hour") { (action, view, handler) in
+            print("Notify")
+            print(self.parrentData[indexPath.row])
+            
+            let center = UNUserNotificationCenter.current()
+            
+            let content = UNMutableNotificationContent()
+            
+            content.title = "From your TODO List application"
+            
+            content.body = "You have one task to complete..."
+            
+            content.body = "Your Task is : \(self.data[indexPath.row])"
+            
+            content.threadIdentifier = "notication-action-home"
+            
+            content.sound = UNNotificationSound.defaultCritical
+            
+            let data = Date(timeIntervalSinceNow: 3600)
+            
+            let dataComponent = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: data)
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dataComponent, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: "content", content: content, trigger: trigger)
+            
+            center.add(request) { (err) in
+                if err != nil {
+                    print(err?.localizedDescription ?? "")
+                }
+            }
+            
+        }
+        notificationAction.backgroundColor = .blue
+        
+        
+        
+        let configuration = UISwipeActionsConfiguration(actions: [notificationAction])
+        
+        
+        
+        return configuration
+    }
     @objc func addTodo () {
         self.navigationController?.pushViewController(AddViewController(), animated: true)
     }
