@@ -32,19 +32,12 @@ class QuerryViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func setDatabase () {
-        let userid = Auth.auth().currentUser?.uid ?? ""
-//        let time = NSDate().timeIntervalSince1970
-        let id = "title"
-        print(id)
-        database.child(userid).childByAutoId().setValue([id: "Make a big application  for money"])
-        
-    }
     func queryFirebase () {
          let userid = Auth.auth().currentUser?.uid ?? ""
         database.child(userid).observe(DataEventType.value) { (snapshot) in
             let value = snapshot.value as? NSDictionary
             var title = value?["title"] as? [String] ?? [""]
+            var time = value?["time"] as? [String] ?? [""]
             var keys = value?["key"] as? [String] ?? [""]
             print(title)
             
@@ -54,10 +47,12 @@ class QuerryViewController: UIViewController {
                 print(val?["title"] as? String ?? "")
                 keys.append(tit.key as? String ?? "")
                 title.append(val?["title"] as? String ?? "")
+                time.append(val?["time"] as? String ?? "")
             }
             print("This is title : ", title)
             let vcc = TODODisplayTableViewController() as TODODisplayTableViewController
             vcc.data = title
+            vcc.timeDate = time
             vcc.parrentData = keys
             let vc = UINavigationController(rootViewController: vcc)
             
