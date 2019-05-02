@@ -7,4 +7,4 @@ I learn how to use :
 - Auto Layout  
 - Firebase database 
 - Firebase Auth 
-- date and calendar
+- Date and calendar
